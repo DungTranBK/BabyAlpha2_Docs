@@ -12,7 +12,7 @@ Mỗi khi hệ thống phần cứng được cấp nguồn điện ổn định
 ### 1.1. Lưu đồ tiến trình khởi tạo và khôi phục kết nối (Initialization & Recovery Decision Flowchart):
 Dưới đây là lưu đồ chi tiết thể hiện các khối xử lý rẽ nhánh điều kiện và vòng lặp tự động khôi phục kết nối khi động cơ bị mất kết nối đột ngột hoặc được rút ra cắm lại khi hệ thống đang chạy (cắm nóng - hot-plug):
 
-<img width="639" height="859" alt="image" src="https://github.com/user-attachments/assets/a465a93c-2f1c-4341-b7d4-194092825096" />
+<img width="426" height="572" alt="image" src="https://github.com/user-attachments/assets/a465a93c-2f1c-4341-b7d4-194092825096" />
 
 
 ### 1.2. Bảng chẩn đoán trạng thái các bước khởi tạo:
