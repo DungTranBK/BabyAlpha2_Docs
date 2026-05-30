@@ -12,8 +12,7 @@ Mỗi khi hệ thống phần cứng được cấp nguồn điện ổn định
 ### 1.1. Lưu đồ tiến trình khởi tạo và khôi phục kết nối (Initialization & Recovery Decision Flowchart):
 Dưới đây là lưu đồ chi tiết thể hiện các khối xử lý rẽ nhánh điều kiện và vòng lặp tự động khôi phục kết nối khi động cơ bị mất kết nối đột ngột hoặc được rút ra cắm lại khi hệ thống đang chạy (cắm nóng - hot-plug):
 
-<img width="426" height="572" alt="image" src="https://github.com/user-attachments/assets/a465a93c-2f1c-4341-b7d4-194092825096" />
-
+![Lưu đồ Tiến trình Khởi tạo & Phục hồi Kết nối](./initialization_flowchart.png)
 
 
 ### 1.2. Bảng chẩn đoán trạng thái các bước khởi tạo:
@@ -261,16 +260,16 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 
 | Khớp Động Cơ | CAN ID | Dải góc khớp tính toán trực tiếp | Bản tin Cấu hình HEX (`0xF5`) gửi đi từ Master |
 | :--- | :---: | :---: | :--- |
-| **Motor 1 (BL Hip - Hông)** | `0x001` | $[-133.93^\circ, +175.47^\circ]$ | `F0 97 ED 6D BD 80 AC 00 00 00 00 F5` |
-| **Motor 2 (BL Thigh - Đùi)** | `0x002` | $[-400.50^\circ, +359.82^\circ]$ | `F0 B1 10 49 64 80 AC 00 00 00 00 F5` |
-| **Motor 3 (BL Calf - Gối)** | `0x003` | $[-129.81^\circ, +130.32^\circ]$ | `F0 91 C5 6E 4D 80 AC 00 00 00 00 F5` |
-| **Motor 4 (BR Hip - Hông)** | `0x004` | $[-175.56^\circ, +133.84^\circ]$ | `F0 92 40 68 10 80 AC 00 00 00 00 F5` |
-| **Motor 5 (BR Thigh - Đùi)** | `0x005` | $[-359.91^\circ, +400.42^\circ]$ | `F0 B6 99 4E ED 80 AC 00 00 00 00 F5` |
-| **Motor 6 (BR Calf - Gối)** | `0x006` | $[-130.41^\circ, +129.72^\circ]$ | `F0 91 B0 6E 38 80 AC 00 00 00 00 F5` |
+| **Motor 1 (BL Hip - Hông ngang)** | `0x001` | $[-133.93^\circ, +175.47^\circ]$ | `F0 97 ED 6D BD 80 AC 00 00 00 00 F5` |
+| **Motor 2 (BL Thigh - Hông dọc)** | `0x002` | $[-400.50^\circ, +359.82^\circ]$ | `F0 B1 10 49 64 80 AC 00 00 00 00 F5` |
+| **Motor 3 (BL Calf - Khớp gối)** | `0x003` | $[-129.81^\circ, +130.32^\circ]$ | `F0 91 C5 6E 4D 80 AC 00 00 00 00 F5` |
+| **Motor 4 (BR Hip - Hông ngang)** | `0x004` | $[-175.56^\circ, +133.84^\circ]$ | `F0 92 40 68 10 80 AC 00 00 00 00 F5` |
+| **Motor 5 (BR Thigh - Hông dọc)** | `0x005` | $[-359.91^\circ, +400.42^\circ]$ | `F0 B6 99 4E ED 80 AC 00 00 00 00 F5` |
+| **Motor 6 (BR Calf - Khớp gối)** | `0x006` | $[-130.41^\circ, +129.72^\circ]$ | `F0 91 B0 6E 38 80 AC 00 00 00 00 F5` |
 
 > [!WARNING]
 > **Lưu ý quan trọng về Kịch bản A:**
-> Các giới hạn góc tính toán trong Kịch bản A là dải bảo vệ phần mềm mở rộng trên driver và đang **vượt quá dải giới hạn cơ học vật lý thực tế** của các khớp chân robot (đặc biệt là khớp đùi Motor 2 và 5 có dải góc lên tới gần $400^\circ$).
+> Các giới hạn góc tính toán trong Kịch bản A là dải bảo vệ phần mềm mở rộng trên driver và đang **vượt quá dải giới hạn cơ học vật lý thực tế** của các khớp chân robot (đặc biệt là khớp hông dọc Motor 2 và 5 có dải góc lên tới gần $400^\circ$).
 > Nếu Master cấu hình các giới hạn driver theo kịch bản này, phần mềm điều khiển trên Master **bắt buộc phải chủ động kiểm soát dải quỹ đạo, đảm bảo tuyệt đối không gửi lệnh góc đích (Desired Position) vượt quá giới hạn cơ học vật lý của cơ cấu khớp**. Việc Master gửi góc điều khiển quá biên cơ khí thực tế sẽ gây nguy cơ va đập mạnh làm biến dạng hoặc nứt vỡ hộp số và các bộ phận truyền động cơ khí.
 
 ### 6.2. Bảng kịch bản B: Giới hạn khít thực tế cơ học từ Thực nghiệm (Đối xứng gương hoàn hảo)
@@ -279,18 +278,18 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 
 | Khớp Động Cơ | CAN ID | Dải góc khớp đối xứng cơ học | Bản tin Cấu hình HEX (`0xF5`) gửi đi từ Master |
 | :--- | :---: | :---: | :--- |
-| **Motor 1 (BL Hip - Hông)** | `0x001` | $[-84.60^\circ, +46.60^\circ]$ | `F0 86 5B 74 77 80 AC 00 00 00 00 F5` |
-| **Motor 2 (BL Thigh - Đùi)** | `0x002` | $[-230.00^\circ, +109.00^\circ]$ | `F0 8E DE 60 A4 80 AC 00 00 00 00 F5` |
-| **Motor 3 (BL Calf - Gối)** | `0x003` | $[+0.57^\circ, +129.81^\circ]$ | `F0 91 B3 80 14 80 AC 00 00 00 00 F5` |
-| **Motor 4 (BR Hip - Hông)** | `0x004` | $[-46.60^\circ, +84.60^\circ]$ | `F0 8B 99 79 A5 80 AC 00 00 00 00 F5` |
-| **Motor 5 (BR Thigh - Đùi)** | `0x005` | $[-109.00^\circ, +230.00^\circ]$ | `F0 9F 5C 71 23 80 AC 00 00 00 00 F5` |
-| **Motor 6 (BR Calf - Gối)** | `0x006` | $[-129.81^\circ, -0.57^\circ]$ | `F0 7F EC 6E 4D 80 AC 00 00 00 00 F5` |
+| **Motor 1 (BL Hip - Hông ngang)** | `0x001` | $[-84.60^\circ, +46.60^\circ]$ | `F0 86 5B 74 77 80 AC 00 00 00 00 F5` |
+| **Motor 2 (BL Thigh - Hông dọc)** | `0x002` | $[-230.00^\circ, +109.00^\circ]$ | `F0 8E DE 60 A4 80 AC 00 00 00 00 F5` |
+| **Motor 3 (BL Calf - Khớp gối)** | `0x003` | $[+0.57^\circ, +129.81^\circ]$ | `F0 91 B3 80 14 80 AC 00 00 00 00 F5` |
+| **Motor 4 (BR Hip - Hông ngang)** | `0x004` | $[-46.60^\circ, +84.60^\circ]$ | `F0 8B 99 79 A5 80 AC 00 00 00 00 F5` |
+| **Motor 5 (BR Thigh - Hông dọc)** | `0x005` | $[-109.00^\circ, +230.00^\circ]$ | `F0 9F 5C 71 23 80 AC 00 00 00 00 F5` |
+| **Motor 6 (BR Calf - Khớp gối)** | `0x006` | $[-129.81^\circ, -0.57^\circ]$ | `F0 7F EC 6E 4D 80 AC 00 00 00 00 F5` |
 
 ### 6.3. Chi tiết bóc tách từng Byte và Công thức tính góc từ Raw thô cho cả 6 khớp (Kịch bản B)
 
 Để hỗ trợ đội ngũ lập trình viết mã nguồn chuyển đổi chính xác và kiểm tra giá trị phân tách trong các bộ kiểm thử tự động (Unit Tests), dưới đây là đặc tả chi tiết từng byte cho từng động cơ kèm theo công thức tính toán tường minh từ giá trị Raw sang góc vật lý:
 
-#### 1. Motor 1 (BL Hip - Hông Trái): `F0 86 5B 74 77 80 AC 00 00 00 00 F5`
+#### 1. Motor 1 (BL Hip - Hông ngang Trái): `F0 86 5B 74 77 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
 *   `Byte 1 - 2 = 0x86 5B` (thô `34395`): Giới hạn góc cực đại $p_{\text{max}} = +46.60^\circ$.
     *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{34395 - 32768}{65535} \times 32.768 = +0.8133$ rad.
@@ -304,7 +303,7 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 *   `Byte 9 - 10 = 0x00 00`: Giới hạn mô-men xoắn cực đại (bypass cấu hình).
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 2. Motor 2 (BL Thigh - Đùi Trái): `F0 8E DE 60 A4 80 AC 00 00 00 00 F5`
+#### 2. Motor 2 (BL Thigh - Hông dọc Trái): `F0 8E DE 60 A4 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
 *   `Byte 1 - 2 = 0x8E DE` (thô `36573`): Giới hạn góc cực đại $p_{\text{max}} = +109.00^\circ$.
     *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{36573 - 32768}{65535} \times 32.768 = +1.9024$ rad.
@@ -317,7 +316,7 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 3. Motor 3 (BL Calf - Gối Trái): `F0 91 B3 80 14 80 AC 00 00 00 00 F5`
+#### 3. Motor 3 (BL Calf - Khớp gối Trái): `F0 91 B3 80 14 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
 *   `Byte 1 - 2 = 0x91 B3` (thô `37299`): Giới hạn góc cực đại $p_{\text{max}} = +129.81^\circ$.
     *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{37299 - 32768}{65535} \times 32.768 = +2.2656$ rad.
@@ -330,7 +329,7 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 4. Motor 4 (BR Hip - Hông Phải): `F0 8B 99 79 A5 80 AC 00 00 00 00 F5`
+#### 4. Motor 4 (BR Hip - Hông ngang Phải): `F0 8B 99 79 A5 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
 *   `Byte 1 - 2 = 0x8B 99` (thô `35721`): Giới hạn góc cực đại $p_{\text{max}} = +84.60^\circ$.
     *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{35721 - 32768}{65535} \times 32.768 = +1.4765$ rad.
@@ -343,7 +342,7 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 5. Motor 5 (BR Thigh - Đùi Phải): `F0 9F 5C 71 23 80 AC 00 00 00 00 F5`
+#### 5. Motor 5 (BR Thigh - Hông dọc Phải): `F0 9F 5C 71 23 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
 *   `Byte 1 - 2 = 0x9F 5C` (thô `40796`): Giới hạn góc cực đại $p_{\text{max}} = +230.00^\circ$.
     *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{40796 - 32768}{65535} \times 32.768 = +4.0143$ rad.
@@ -356,7 +355,7 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 6. Motor 6 (BR Calf - Gối Phải): `F0 7F EC 6E 4D 80 AC 00 00 00 00 F5`
+#### 6. Motor 6 (BR Calf - Khớp gối Phải): `F0 7F EC 6E 4D 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
 *   `Byte 1 - 2 = 0x7F EC` (thô `32748`): Giới hạn góc cực đại $p_{\text{max}} = -0.57^\circ$.
     *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{32748 - 32768}{65535} \times 32.768 = -0.0100$ rad.
@@ -377,12 +376,12 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 
 ### 7.1. Quy trình căn lề điểm không chính xác (Encoder Calibration Position)
 *   **Hành vi thực tế bắt buộc**: Khi gửi bản tin Calib điểm không Encoder (`0xF4`), **bắt buộc phải đặt robot nằm phẳng hoàn toàn tiếp đất (cả 4 chân tỳ xuống mặt đất ở trạng thái tĩnh nằm im tự nhiên)**.
-*   **Lý do kỹ thuật**: Đây là tư thế tham chiếu chuẩn để driver xác định mốc vị trí $0$ rad cho tất cả các khớp khớp chân.
+*   **Lý do kỹ thuật**: Đây là tư thế tham chiếu chuẩn để driver xác định mốc vị trí $0$ rad cho tất cả các khớp chân.
 
 ### 7.2. Đặc tính chặn góc bão hòa vị trí của Driver động cơ (Position Clamping)
 *   **Đặc tính hoạt động**: Khi góc điều khiển hoặc góc phản hồi cơ học vượt quá phạm vi giới hạn đã nạp qua bản tin `0xF5`, driver động cơ **không** thực hiện ngắt lực (shutdown H-bridge) hay ngắt nguồn của khớp.
 *   **Cơ chế bảo vệ**: Driver tự động bão hòa/chặn cứng vị trí hoạt động tại đúng biên giới hạn đó và tiếp tục sinh lực giữ chặt khớp tại biên.
-*   *Ví dụ*: Nếu giới hạn gập gối tối đa được nạp là $50^\circ$ mà Master truyền lệnh điều khiển $130^\circ$, động cơ sẽ di chuyển mượt mà tới đúng biên $50^\circ$ và dừng lại, tích cực giữ cứng vị trí tại biên $50^\circ$. Khi Master truyền lệnh quay lại dải an toàn (dưới $50^\circ$), động cơ sẽ bám đuổi bình thường.
+*   *Ví dụ*: Nếu giới hạn gập khớp gối tối đa được nạp là $50^\circ$ mà Master truyền lệnh điều khiển $130^\circ$, động cơ sẽ di chuyển mượt mà tới đúng biên $50^\circ$ và dừng lại, tích cực giữ cứng vị trí tại biên $50^\circ$. Khi Master truyền lệnh quay lại dải an toàn (dưới $50^\circ$), động cơ sẽ bám đuổi bình thường.
 
 ### 7.3. Tự động phục hồi khi mất kết nối đột ngột hoặc cắm nóng 
 > [!NOTE]
@@ -397,7 +396,7 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 
 ## 8. BẢNG TRA CỨU NHANH BẢN TIN ĐIỀU KHIỂN THỜI GIAN THỰC (REAL-TIME COMMAND LOOKUP TABLES)
 
-Dưới đây là bảng tra cứu nhanh toàn diện (Lookup Tables) tích hợp toàn bộ các bản tin điều khiển nhị phân thời gian thực gửi qua CAN-FD cho cả 3 khớp truyền động (Hông ngang, Hông dọc, và Gối) của robot 4 chân, bám sát các giới hạn vật lý đo được từ thực nghiệm thực tế.
+Dưới đây là bảng tra cứu nhanh toàn diện (Lookup Tables) tích hợp toàn bộ các bản tin điều khiển nhị phân thời gian thực gửi qua CAN-FD cho cả 3 khớp truyền động (Hông ngang, Hông dọc, và Khớp gối) của robot 4 chân, bám sát các giới hạn vật lý đo được từ thực nghiệm thực tế.
 
 Tất cả các bản tin đã được chuẩn hóa theo **Bản tin số 1** (Master ra lệnh trực tiếp theo tọa độ góc khớp thực tế bên ngoài).
 
@@ -416,24 +415,50 @@ Tất cả các bản tin đã được chuẩn hóa theo **Bản tin số 1** (
 *   **Mô-men xoắn bù trước ($\tau_{\text{ff}}$)**: Luôn cố định là **`7F FF`** (Tương ứng với 0 N.m).
 
 ### 8.2. Bảng tra cứu khớp gối (Calf Joint - Motor 3 & 6)
-*Dải giới hạn thực nghiệm: **`[0.57°, 129.81°]`** (mỗi bước cách nhau 10 độ)*
+
+Do đặc tính đối xứng cơ học vật lý giữa hai bên chân trái (BL) và chân phải (BR), khớp gối sở hữu dải giới hạn thực nghiệm khác nhau:
+*   **Khớp gối Trái (BL Calf - Motor 3):** `[+0.57°, +129.81°]`
+*   **Khớp gối Phải (BR Calf - Motor 6):** `[-129.81°, -0.57°]`
+
+#### 8.2.1. Bảng Tra Cứu Khớp Gối Trái (BL Calf - Motor 3)
+*Dải giới hạn thực nghiệm: `[+0.57°, +129.81°]`*
 
 | Góc Khớp Đích | Tọa độ Radian | Hex Vị Trí (`Byte 1-2`) | Bản tin Lực Siêu Mềm ($Kp=0.5, Kd=1.0$) | Bản tin Lực Tiêu Chuẩn ($Kp=3.0, Kd=6.0$) |
 | :---: | :---: | :---: | :--- | :--- |
-| **0°** | $0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
-| **10°** | $0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
-| **20°** | $0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
-| **30°** | $0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
-| **40°** | $0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
-| **50°** | $0.8727$ rad | `86 D1` | `00 86 D1 7F FE 00 32 00 64 7F FF 00` | `00 86 D1 7F FE 01 2C 02 58 7F FF 00` |
-| **60°** | $1.0472$ rad | `88 2E` | `00 88 2E 7F FE 00 32 00 64 7F FF 00` | `00 88 2E 7F FE 01 2C 02 58 7F FF 00` |
-| **70°** | $1.2217$ rad | `89 8B` | `00 89 8B 7F FE 00 32 00 64 7F FF 00` | `00 89 8B 7F FE 01 2C 02 58 7F FF 00` |
-| **80°** | $1.3963$ rad | `8A E8` | `00 8A E8 7F FE 00 32 00 64 7F FF 00` | `00 8A E8 7F FE 01 2C 02 58 7F FF 00` |
-| **90°** | $1.5708$ rad | `8C 46` | `00 8C 46 7F FE 00 32 00 64 7F FF 00` | `00 8C 46 7F FE 01 2C 02 58 7F FF 00` |
-| **100°** | $1.7453$ rad | `8D A3` | `00 8D A3 7F FE 00 32 00 64 7F FF 00` | `00 8D A3 7F FE 01 2C 02 58 7F FF 00` |
-| **110°** | $1.9199$ rad | `8F 00` | `00 8F 00 7F FE 00 32 00 64 7F FF 00` | `00 8F 00 7F FE 01 2C 02 58 7F FF 00` |
-| **120°** | $2.0944$ rad | `90 5D` | `00 90 5D 7F FE 00 32 00 64 7F FF 00` | `00 90 5D 7F FE 01 2C 02 58 7F FF 00` |
-| **130°** | $2.2689$ rad | `91 BA` | `00 91 BA 7F FE 00 32 00 64 7F FF 00` | `00 91 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+0.57° (Min)** | $+0.0099$ rad | `80 14` | `00 80 14 7F FE 00 32 00 64 7F FF 00` | `00 80 14 7F FE 01 2C 02 58 7F FF 00` |
+| **+10.00°** | $+0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+20.00°** | $+0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+30.00°** | $+0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
+| **+40.00°** | $+0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
+| **+50.00°** | $+0.8727$ rad | `86 D1` | `00 86 D1 7F FE 00 32 00 64 7F FF 00` | `00 86 D1 7F FE 01 2C 02 58 7F FF 00` |
+| **+60.00°** | $+1.0472$ rad | `88 2E` | `00 88 2E 7F FE 00 32 00 64 7F FF 00` | `00 88 2E 7F FE 01 2C 02 58 7F FF 00` |
+| **+70.00°** | $+1.2217$ rad | `89 8B` | `00 89 8B 7F FE 00 32 00 64 7F FF 00` | `00 89 8B 7F FE 01 2C 02 58 7F FF 00` |
+| **+80.00°** | $+1.3963$ rad | `8A E9` | `00 8A E9 7F FE 00 32 00 64 7F FF 00` | `00 8A E9 7F FE 01 2C 02 58 7F FF 00` |
+| **+90.00°** | $+1.5708$ rad | `8C 46` | `00 8C 46 7F FE 00 32 00 64 7F FF 00` | `00 8C 46 7F FE 01 2C 02 58 7F FF 00` |
+| **+100.00°** | $+1.7453$ rad | `8D A3` | `00 8D A3 7F FE 00 32 00 64 7F FF 00` | `00 8D A3 7F FE 01 2C 02 58 7F FF 00` |
+| **+110.00°** | $+1.9199$ rad | `8F 00` | `00 8F 00 7F FE 00 32 00 64 7F FF 00` | `00 8F 00 7F FE 01 2C 02 58 7F FF 00` |
+| **+120.00°** | $+2.0944$ rad | `90 5D` | `00 90 5D 7F FE 00 32 00 64 7F FF 00` | `00 90 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+129.81° (Max)** | $+2.2656$ rad | `91 B3` | `00 91 B3 7F FE 00 32 00 64 7F FF 00` | `00 91 B3 7F FE 01 2C 02 58 7F FF 00` |
+
+#### 8.2.2. Bảng Tra Cứu Khớp Gối Phải (BR Calf - Motor 6)
+*Dải giới hạn thực nghiệm: `[-129.81°, -0.57°]`*
+
+| Góc Khớp Đích | Tọa độ Radian | Hex Vị Trí (`Byte 1-2`) | Bản tin Lực Siêu Mềm ($Kp=0.5, Kd=1.0$) | Bản tin Lực Tiêu Chuẩn ($Kp=3.0, Kd=6.0$) |
+| :---: | :---: | :---: | :--- | :--- |
+| **-129.81° (Min)** | $-2.2656$ rad | `6E 4D` | `00 6E 4D 7F FE 00 32 00 64 7F FF 00` | `00 6E 4D 7F FE 01 2C 02 58 7F FF 00` |
+| **-120.00°** | $-2.0944$ rad | `6F A3` | `00 6F A3 7F FE 00 32 00 64 7F FF 00` | `00 6F A3 7F FE 01 2C 02 58 7F FF 00` |
+| **-110.00°** | $-1.9199$ rad | `71 00` | `00 71 00 7F FE 00 32 00 64 7F FF 00` | `00 71 00 7F FE 01 2C 02 58 7F FF 00` |
+| **-100.00°** | $-1.7453$ rad | `72 5D` | `00 72 5D 7F FE 00 32 00 64 7F FF 00` | `00 72 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **-90.00°** | $-1.5708$ rad | `73 BA` | `00 73 BA 7F FE 00 32 00 64 7F FF 00` | `00 73 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **-80.00°** | $-1.3963$ rad | `75 17` | `00 75 17 7F FE 00 32 00 64 7F FF 00` | `00 75 17 7F FE 01 2C 02 58 7F FF 00` |
+| **-70.00°** | $-1.2217$ rad | `76 75` | `00 76 75 7F FE 00 32 00 64 7F FF 00` | `00 76 75 7F FE 01 2C 02 58 7F FF 00` |
+| **-60.00°** | $-1.0472$ rad | `77 D2` | `00 77 D2 7F FE 00 32 00 64 7F FF 00` | `00 77 D2 7F FE 01 2C 02 58 7F FF 00` |
+| **-50.00°** | $-0.8727$ rad | `79 2F` | `00 79 2F 7F FE 00 32 00 64 7F FF 00` | `00 79 2F 7F FE 01 2C 02 58 7F FF 00` |
+| **-40.00°** | $-0.6981$ rad | `7A 8C` | `00 7A 8C 7F FE 00 32 00 64 7F FF 00` | `00 7A 8C 7F FE 01 2C 02 58 7F FF 00` |
+| **-30.00°** | $-0.5236$ rad | `7B E9` | `00 7B E9 7F FE 00 32 00 64 7F FF 00` | `00 7B E9 7F FE 01 2C 02 58 7F FF 00` |
+| **-20.00°** | $-0.3491$ rad | `7D 46` | `00 7D 46 7F FE 00 32 00 64 7F FF 00` | `00 7D 46 7F FE 01 2C 02 58 7F FF 00` |
+| **-10.00°** | $-0.1745$ rad | `7E A3` | `00 7E A3 7F FE 00 32 00 64 7F FF 00` | `00 7E A3 7F FE 01 2C 02 58 7F FF 00` |
+| **-0.57° (Max)** | $-0.0099$ rad | `7F EC` | `00 7F EC 7F FE 00 32 00 64 7F FF 00` | `00 7F EC 7F FE 01 2C 02 58 7F FF 00` |
 
 ### 8.3. Bảng tra cứu khớp hông ngang (Hip Joint - Motor 1 & 4)
 
