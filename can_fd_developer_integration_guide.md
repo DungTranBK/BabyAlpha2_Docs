@@ -14,6 +14,7 @@ Dưới đây là lưu đồ chi tiết thể hiện các khối xử lý rẽ n
 
 ![Lưu đồ Tiến trình Khởi tạo & Phục hồi Kết nối](./initialization_flowchart.png)
 
+
 ### 1.2. Bảng chẩn đoán trạng thái các bước khởi tạo:
 
 | Bước | Bản tin Gửi (Tx) | Lệnh Hex (`Byte 11`) | Trạng thái Động cơ trước lệnh | Trạng thái / Hành vi sau lệnh | Mục đích kỹ thuật |
@@ -277,39 +278,39 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 
 | Khớp Động Cơ | CAN ID | Dải góc khớp đối xứng cơ học | Bản tin Cấu hình HEX (`0xF5`) gửi đi từ Master |
 | :--- | :---: | :---: | :--- |
-| **Motor 1 (BL Hip - Hông)** | `0x001` | $[-44.49^\circ, +86.66^\circ]$ | `F0 8B D1 79 EF 80 AC 00 00 00 00 F5` |
-| **Motor 2 (BL Thigh - Đùi)** | `0x002` | $[-310.43^\circ, +29.36^\circ]$ | `F0 84 01 55 AC 80 AC 00 00 00 00 F5` |
+| **Motor 1 (BL Hip - Hông)** | `0x001` | $[-84.60^\circ, +46.60^\circ]$ | `F0 86 5B 74 77 80 AC 00 00 00 00 F5` |
+| **Motor 2 (BL Thigh - Đùi)** | `0x002` | $[-230.00^\circ, +109.00^\circ]$ | `F0 8E DE 60 A4 80 AC 00 00 00 00 F5` |
 | **Motor 3 (BL Calf - Gối)** | `0x003` | $[+0.57^\circ, +129.81^\circ]$ | `F0 91 B3 80 14 80 AC 00 00 00 00 F5` |
-| **Motor 4 (BR Hip - Hông)** | `0x004` | $[-86.66^\circ, +44.49^\circ]$ | `F0 86 11 74 2F 80 AC 00 00 00 00 F5` |
-| **Motor 5 (BR Thigh - Đùi)** | `0x005` | $[-29.36^\circ, +310.43^\circ]$ | `F0 AA 54 7B FF 80 AC 00 00 00 00 F5` |
+| **Motor 4 (BR Hip - Hông)** | `0x004` | $[-46.60^\circ, +84.60^\circ]$ | `F0 8B 99 79 A5 80 AC 00 00 00 00 F5` |
+| **Motor 5 (BR Thigh - Đùi)** | `0x005` | $[-109.00^\circ, +230.00^\circ]$ | `F0 9F 5C 71 23 80 AC 00 00 00 00 F5` |
 | **Motor 6 (BR Calf - Gối)** | `0x006` | $[-129.81^\circ, -0.57^\circ]$ | `F0 7F EC 6E 4D 80 AC 00 00 00 00 F5` |
 
 ### 6.3. Chi tiết bóc tách từng Byte và Công thức tính góc từ Raw thô cho cả 6 khớp (Kịch bản B)
 
 Để hỗ trợ đội ngũ lập trình viết mã nguồn chuyển đổi chính xác và kiểm tra giá trị phân tách trong các bộ kiểm thử tự động (Unit Tests), dưới đây là đặc tả chi tiết từng byte cho từng động cơ kèm theo công thức tính toán tường minh từ giá trị Raw sang góc vật lý:
 
-#### 1. Motor 1 (BL Hip - Hông Trái): `F0 8B D1 79 EF 80 AC 00 00 00 00 F5`
+#### 1. Motor 1 (BL Hip - Hông Trái): `F0 86 5B 74 77 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
-*   `Byte 1 - 2 = 0x8B D1` (thô `35793`): Giới hạn góc cực đại $p_{\text{max}} = +86.66^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{35793 - 32768}{65535} \times 32.768 = +1.5125$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 1.5125 \times \frac{180}{\pi} = +86.66^\circ$.
-*   `Byte 3 - 4 = 0x79 EF` (thô `31215`): Giới hạn góc cực tiểu $p_{\text{min}} = -44.49^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{31215 - 32768}{65535} \times 32.768 = -0.7765$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -0.7765 \times \frac{180}{\pi} = -44.49^\circ$.
+*   `Byte 1 - 2 = 0x86 5B` (thô `34395`): Giới hạn góc cực đại $p_{\text{max}} = +46.60^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{34395 - 32768}{65535} \times 32.768 = +0.8133$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 0.8133 \times \frac{180}{\pi} = +46.60^\circ$.
+*   `Byte 3 - 4 = 0x74 77` (thô `29815`): Giới hạn góc cực tiểu $p_{\text{min}} = -84.60^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{29815 - 32768}{65535} \times 32.768 = -1.4765$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -1.4765 \times \frac{180}{\pi} = -84.60^\circ$.
 *   `Byte 5 - 6 = 0x80 AC` (thô `32940`): Giới hạn tốc độ tối đa $v_{\text{max}} = 32.94$ rad/s.
     *   *Công thức:* $v_{\text{rad/s}} = \frac{32940}{1000.0} = 32.94$ rad/s.
 *   `Byte 7 - 8 = 0x00 00`: Giới hạn Kp cực đại (bypass cấu hình).
 *   `Byte 9 - 10 = 0x00 00`: Giới hạn mô-men xoắn cực đại (bypass cấu hình).
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 2. Motor 2 (BL Thigh - Đùi Trái): `F0 84 01 55 AC 80 AC 00 00 00 00 F5`
+#### 2. Motor 2 (BL Thigh - Đùi Trái): `F0 8E DE 60 A4 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
-*   `Byte 1 - 2 = 0x84 01` (thô `33793`): Giới hạn góc cực đại $p_{\text{max}} = +29.36^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{33793 - 32768}{65535} \times 32.768 = +0.5124$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 0.5124 \times \frac{180}{\pi} = +29.36^\circ$.
-*   `Byte 3 - 4 = 0x55 AC` (thô `21932`): Giới hạn góc cực tiểu $p_{\text{min}} = -310.43^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{21932 - 32768}{65535} \times 32.768 = -5.4180$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -5.4180 \times \frac{180}{\pi} = -310.43^\circ$.
+*   `Byte 1 - 2 = 0x8E DE` (thô `36573`): Giới hạn góc cực đại $p_{\text{max}} = +109.00^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{36573 - 32768}{65535} \times 32.768 = +1.9024$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 1.9024 \times \frac{180}{\pi} = +109.00^\circ$.
+*   `Byte 3 - 4 = 0x60 A4` (thô `24740`): Giới hạn góc cực tiểu $p_{\text{min}} = -230.00^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{24740 - 32768}{65535} \times 32.768 = -4.0143$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -4.0143 \times \frac{180}{\pi} = -230.00^\circ$.
 *   `Byte 5 - 6 = 0x80 AC` (thô `32940`): Giới hạn tốc độ tối đa $v_{\text{max}} = 32.94$ rad/s.
     *   *Công thức:* $v_{\text{rad/s}} = \frac{32940}{1000.0} = 32.94$ rad/s.
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
@@ -328,27 +329,27 @@ Bảng dưới đây cung cấp dải góc khớp tính toán vật lý trực t
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 4. Motor 4 (BR Hip - Hông Phải): `F0 86 11 74 2F 80 AC 00 00 00 00 F5`
+#### 4. Motor 4 (BR Hip - Hông Phải): `F0 8B 99 79 A5 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
-*   `Byte 1 - 2 = 0x86 11` (thô `34321`): Giới hạn góc cực đại $p_{\text{max}} = +44.49^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{34321 - 32768}{65535} \times 32.768 = +0.7765$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 0.7765 \times \frac{180}{\pi} = +44.49^\circ$.
-*   `Byte 3 - 4 = 0x74 2F` (thô `29743`): Giới hạn góc cực tiểu $p_{\text{min}} = -86.66^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{29743 - 32768}{65535} \times 32.768 = -1.5125$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -1.5125 \times \frac{180}{\pi} = -86.66^\circ$.
+*   `Byte 1 - 2 = 0x8B 99` (thô `35721`): Giới hạn góc cực đại $p_{\text{max}} = +84.60^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{35721 - 32768}{65535} \times 32.768 = +1.4765$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 1.4765 \times \frac{180}{\pi} = +84.60^\circ$.
+*   `Byte 3 - 4 = 0x79 A5` (thô `31141`): Giới hạn góc cực tiểu $p_{\text{min}} = -46.60^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{31141 - 32768}{65535} \times 32.768 = -0.8133$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -0.8133 \times \frac{180}{\pi} = -46.60^\circ$.
 *   `Byte 5 - 6 = 0x80 AC` (thô `32940`): Giới hạn tốc độ tối đa $v_{\text{max}} = 32.94$ rad/s.
     *   *Công thức:* $v_{\text{rad/s}} = \frac{32940}{1000.0} = 32.94$ rad/s.
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
 *   `Byte 11 = 0xF5`: Lệnh nạp cấu hình limits.
 
-#### 5. Motor 5 (BR Thigh - Đùi Phải): `F0 AA 54 7B FF 80 AC 00 00 00 00 F5`
+#### 5. Motor 5 (BR Thigh - Đùi Phải): `F0 9F 5C 71 23 80 AC 00 00 00 00 F5`
 *   `Byte 0 = 0xF0`: Header bản tin hệ thống.
-*   `Byte 1 - 2 = 0xAA 54` (thô `43604`): Giới hạn góc cực đại $p_{\text{max}} = +310.43^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{43604 - 32768}{65535} \times 32.768 = +5.4180$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 5.4180 \times \frac{180}{\pi} = +310.43^\circ$.
-*   `Byte 3 - 4 = 0x7B FF` (thô `31743`): Giới hạn góc cực tiểu $p_{\text{min}} = -29.36^\circ$.
-    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{31743 - 32768}{65535} \times 32.768 = -0.5124$ rad.
-    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -0.5124 \times \frac{180}{\pi} = -29.36^\circ$.
+*   `Byte 1 - 2 = 0x9F 5C` (thô `40796`): Giới hạn góc cực đại $p_{\text{max}} = +230.00^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{40796 - 32768}{65535} \times 32.768 = +4.0143$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = 4.0143 \times \frac{180}{\pi} = +230.00^\circ$.
+*   `Byte 3 - 4 = 0x71 23` (thô `28963`): Giới hạn góc cực tiểu $p_{\text{min}} = -109.00^\circ$.
+    *   *Công thức tính Radian:* $q_{\text{rad}} = \frac{28963 - 32768}{65535} \times 32.768 = -1.9024$ rad.
+    *   *Quy đổi sang Độ:* $q_{\text{deg}} = -1.9024 \times \frac{180}{\pi} = -109.00^\circ$.
 *   `Byte 5 - 6 = 0x80 AC` (thô `32940`): Giới hạn tốc độ tối đa $v_{\text{max}} = 32.94$ rad/s.
     *   *Công thức:* $v_{\text{rad/s}} = \frac{32940}{1000.0} = 32.94$ rad/s.
 *   `Byte 7 - 10 = 0x00 00 00 00`: Các dải giới hạn $Kp$, mô-men xoắn cực đại mặc định.
@@ -434,41 +435,65 @@ Tất cả các bản tin đã được chuẩn hóa theo **Bản tin số 1** (
 | **130°** | $2.2689$ rad | `91 BA` | `00 91 BA 7F FE 00 32 00 64 7F FF 00` | `00 91 BA 7F FE 01 2C 02 58 7F FF 00` |
 
 ### 8.3. Bảng tra cứu khớp hông ngang (Hip Joint - Motor 1 & 4)
-*Dải giới hạn thực nghiệm: **`[-44.49°, +86.66°]`** (mỗi bước cách nhau 10 độ)*
+
+Do đặc tính đối xứng cơ học vật lý giữa hai bên chân trái (BL) và chân phải (BR), khớp Hông ngang sở hữu dải giới hạn thực nghiệm khác nhau:
+*   **Hông ngang Trái (BL Hip - Motor 1):** `[-84.60°, +46.60°]`
+*   **Hông ngang Phải (BR Hip - Motor 4):** `[-46.60°, +84.60°]`
+
+#### 8.3.1. Bảng Tra Cứu Khớp Hông Ngang Trái (BL Hip - Motor 1)
+*Dải giới hạn thực nghiệm: `[-84.60°, +46.60°]`*
 
 | Góc Khớp Đích | Tọa độ Radian | Hex Vị Trí (`Byte 1-2`) | Bản tin Lực Siêu Mềm ($Kp=0.5, Kd=1.0$) | Bản tin Lực Tiêu Chuẩn ($Kp=3.0, Kd=6.0$) |
 | :---: | :---: | :---: | :--- | :--- |
-| **-44.49° (Min)** | $-0.7765$ rad | `79 EF` | `00 79 EF 7F FE 00 32 00 64 7F FF 00` | `00 79 EF 7F FE 01 2C 02 58 7F FF 00` |
+| **-84.60° (Min)** | $-1.4765$ rad | `74 77` | `00 74 77 7F FE 00 32 00 64 7F FF 00` | `00 74 77 7F FE 01 2C 02 58 7F FF 00` |
+| **-80.00°** | $-1.3963$ rad | `75 17` | `00 75 17 7F FE 00 32 00 64 7F FF 00` | `00 75 17 7F FE 01 2C 02 58 7F FF 00` |
+| **-70.00°** | $-1.2217$ rad | `76 75` | `00 76 75 7F FE 00 32 00 64 7F FF 00` | `00 76 75 7F FE 01 2C 02 58 7F FF 00` |
+| **-60.00°** | $-1.0472$ rad | `77 D2` | `00 77 D2 7F FE 00 32 00 64 7F FF 00` | `00 77 D2 7F FE 01 2C 02 58 7F FF 00` |
+| **-50.00°** | $-0.8727$ rad | `79 2F` | `00 79 2F 7F FE 00 32 00 64 7F FF 00` | `00 79 2F 7F FE 01 2C 02 58 7F FF 00` |
 | **-40.00°** | $-0.6981$ rad | `7A 8C` | `00 7A 8C 7F FE 00 32 00 64 7F FF 00` | `00 7A 8C 7F FE 01 2C 02 58 7F FF 00` |
 | **-30.00°** | $-0.5236$ rad | `7B E9` | `00 7B E9 7F FE 00 32 00 64 7F FF 00` | `00 7B E9 7F FE 01 2C 02 58 7F FF 00` |
 | **-20.00°** | $-0.3491$ rad | `7D 46` | `00 7D 46 7F FE 00 32 00 64 7F FF 00` | `00 7D 46 7F FE 01 2C 02 58 7F FF 00` |
 | **-10.00°** | $-0.1745$ rad | `7E A3` | `00 7E A3 7F FE 00 32 00 64 7F FF 00` | `00 7E A3 7F FE 01 2C 02 58 7F FF 00` |
-| **0.00°** | $0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
-| **10.00°** | $0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
-| **20.00°** | $0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
-| **30.00°** | $0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
-| **40.00°** | $0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
-| **50.00°** | $0.8727$ rad | `86 D1` | `00 86 D1 7F FE 00 32 00 64 7F FF 00` | `00 86 D1 7F FE 01 2C 02 58 7F FF 00` |
-| **60.00°** | $1.0472$ rad | `88 2E` | `00 88 2E 7F FE 00 32 00 64 7F FF 00` | `00 88 2E 7F FE 01 2C 02 58 7F FF 00` |
-| **70.00°** | $1.2217$ rad | `89 8B` | `00 89 8B 7F FE 00 32 00 64 7F FF 00` | `00 89 8B 7F FE 01 2C 02 58 7F FF 00` |
-| **80.00°** | $1.3963$ rad | `8A E8` | `00 8A E8 7F FE 00 32 00 64 7F FF 00` | `00 8A E8 7F FE 01 2C 02 58 7F FF 00` |
-| **86.66° (Max)** | $1.5125$ rad | `8B D1` | `00 8B D1 7F FE 00 32 00 64 7F FF 00` | `00 8B D1 7F FE 01 2C 02 58 7F FF 00` |
+| **+0.00°** | $+0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
+| **+10.00°** | $+0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+20.00°** | $+0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+30.00°** | $+0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
+| **+40.00°** | $+0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
+| **+46.60° (Max)** | $+0.8133$ rad | `86 5B` | `00 86 5B 7F FE 00 32 00 64 7F FF 00` | `00 86 5B 7F FE 01 2C 02 58 7F FF 00` |
 
-### 8.4. Bảng tra cứu khớp hông dọc (Thigh Joint - Motor 2 & 5)
-*Dải giới hạn thực nghiệm: **`[-310.43°, +29.36°]`** (mỗi bước cách nhau 10 độ)*
+#### 8.3.2. Bảng Tra Cứu Khớp Hông Ngang Phải (BR Hip - Motor 4)
+*Dải giới hạn thực nghiệm: `[-46.60°, +84.60°]`*
 
 | Góc Khớp Đích | Tọa độ Radian | Hex Vị Trí (`Byte 1-2`) | Bản tin Lực Siêu Mềm ($Kp=0.5, Kd=1.0$) | Bản tin Lực Tiêu Chuẩn ($Kp=3.0, Kd=6.0$) |
 | :---: | :---: | :---: | :--- | :--- |
-| **-310.43° (Min)**| $-5.4180$ rad | `55 AC` | `00 55 AC 7F FE 00 32 00 64 7F FF 00` | `00 55 AC 7F FE 01 2C 02 58 7F FF 00` |
-| **-310.00°** | $-5.4105$ rad | `55 BB` | `00 55 BB 7F FE 00 32 00 64 7F FF 00` | `00 55 BB 7F FE 01 2C 02 58 7F FF 00` |
-| **-300.00°** | $-5.2360$ rad | `57 18` | `00 57 18 7F FE 00 32 00 64 7F FF 00` | `00 57 18 7F FE 01 2C 02 58 7F FF 00` |
-| **-290.00°** | $-5.0615$ rad | `58 75` | `00 58 75 7F FE 00 32 00 64 7F FF 00` | `00 58 75 7F FE 01 2C 02 58 7F FF 00` |
-| **-280.00°** | $-4.8869$ rad | `59 D2` | `00 59 D2 7F FE 00 32 00 64 7F FF 00` | `00 59 D2 7F FE 01 2C 02 58 7F FF 00` |
-| **-270.00°** | $-4.7124$ rad | `5B 2F` | `00 5B 2F 7F FE 00 32 00 64 7F FF 00` | `00 5B 2F 7F FE 01 2C 02 58 7F FF 00` |
-| **-260.00°** | $-4.5379$ rad | `5C 8C` | `00 5C 8C 7F FE 00 32 00 64 7F FF 00` | `00 5C 8C 7F FE 01 2C 02 58 7F FF 00` |
-| **-250.00°** | $-4.3633$ rad | `5D E9` | `00 5D E9 7F FE 00 32 00 64 7F FF 00` | `00 5D E9 7F FE 01 2C 02 58 7F FF 00` |
-| **-240.00°** | $-4.1888$ rad | `5F 47` | `00 5F 47 7F FE 00 32 00 64 7F FF 00` | `00 5F 47 7F FE 01 2C 02 58 7F FF 00` |
-| **-230.00°** | $-4.0143$ rad | `60 A4` | `00 60 A4 7F FE 00 32 00 64 7F FF 00` | `00 60 A4 7F FE 01 2C 02 58 7F FF 00` |
+| **-46.60° (Min)** | $-0.8133$ rad | `79 A5` | `00 79 A5 7F FE 00 32 00 64 7F FF 00` | `00 79 A5 7F FE 01 2C 02 58 7F FF 00` |
+| **-40.00°** | $-0.6981$ rad | `7A 8C` | `00 7A 8C 7F FE 00 32 00 64 7F FF 00` | `00 7A 8C 7F FE 01 2C 02 58 7F FF 00` |
+| **-30.00°** | $-0.5236$ rad | `7B E9` | `00 7B E9 7F FE 00 32 00 64 7F FF 00` | `00 7B E9 7F FE 01 2C 02 58 7F FF 00` |
+| **-20.00°** | $-0.3491$ rad | `7D 46` | `00 7D 46 7F FE 00 32 00 64 7F FF 00` | `00 7D 46 7F FE 01 2C 02 58 7F FF 00` |
+| **-10.00°** | $-0.1745$ rad | `7E A3` | `00 7E A3 7F FE 00 32 00 64 7F FF 00` | `00 7E A3 7F FE 01 2C 02 58 7F FF 00` |
+| **+0.00°** | $+0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
+| **+10.00°** | $+0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+20.00°** | $+0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+30.00°** | $+0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
+| **+40.00°** | $+0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
+| **+50.00°** | $+0.8727$ rad | `86 D1` | `00 86 D1 7F FE 00 32 00 64 7F FF 00` | `00 86 D1 7F FE 01 2C 02 58 7F FF 00` |
+| **+60.00°** | $+1.0472$ rad | `88 2E` | `00 88 2E 7F FE 00 32 00 64 7F FF 00` | `00 88 2E 7F FE 01 2C 02 58 7F FF 00` |
+| **+70.00°** | $+1.2217$ rad | `89 8B` | `00 89 8B 7F FE 00 32 00 64 7F FF 00` | `00 89 8B 7F FE 01 2C 02 58 7F FF 00` |
+| **+80.00°** | $+1.3963$ rad | `8A E9` | `00 8A E9 7F FE 00 32 00 64 7F FF 00` | `00 8A E9 7F FE 01 2C 02 58 7F FF 00` |
+| **+84.60° (Max)** | $+1.4765$ rad | `8B 89` | `00 8B 89 7F FE 00 32 00 64 7F FF 00` | `00 8B 89 7F FE 01 2C 02 58 7F FF 00` |
+
+### 8.4. Bảng tra cứu khớp hông dọc (Thigh Joint - Motor 2 & 5)
+
+Do đặc tính đối xứng cơ học vật lý giữa hai bên chân trái (BL) và chân phải (BR), khớp Hông dọc sở hữu dải giới hạn thực nghiệm khác nhau:
+*   **Hông dọc Trái (BL Thigh - Motor 2):** `[-230.00°, +109.00°]`
+*   **Hông dọc Phải (BR Thigh - Motor 5):** `[-109.00°, +230.00°]`
+
+#### 8.4.1. Bảng Tra Cứu Khớp Hông Dọc Trái (BL Thigh - Motor 2)
+*Dải giới hạn thực nghiệm: `[-230.00°, +109.00°]`*
+
+| Góc Khớp Đích | Tọa độ Radian | Hex Vị Trí (`Byte 1-2`) | Bản tin Lực Siêu Mềm ($Kp=0.5, Kd=1.0$) | Bản tin Lực Tiêu Chuẩn ($Kp=3.0, Kd=6.0$) |
+| :---: | :---: | :---: | :--- | :--- |
+| **-230.00° (Min)** | $-4.0143$ rad | `60 A3` | `00 60 A3 7F FE 00 32 00 64 7F FF 00` | `00 60 A3 7F FE 01 2C 02 58 7F FF 00` |
 | **-220.00°** | $-3.8397$ rad | `62 01` | `00 62 01 7F FE 00 32 00 64 7F FF 00` | `00 62 01 7F FE 01 2C 02 58 7F FF 00` |
 | **-210.00°** | $-3.6652$ rad | `63 5E` | `00 63 5E 7F FE 00 32 00 64 7F FF 00` | `00 63 5E 7F FE 01 2C 02 58 7F FF 00` |
 | **-200.00°** | $-3.4907$ rad | `64 BB` | `00 64 BB 7F FE 00 32 00 64 7F FF 00` | `00 64 BB 7F FE 01 2C 02 58 7F FF 00` |
@@ -483,7 +508,7 @@ Tất cả các bản tin đã được chuẩn hóa theo **Bản tin số 1** (
 | **-110.00°** | $-1.9199$ rad | `71 00` | `00 71 00 7F FE 00 32 00 64 7F FF 00` | `00 71 00 7F FE 01 2C 02 58 7F FF 00` |
 | **-100.00°** | $-1.7453$ rad | `72 5D` | `00 72 5D 7F FE 00 32 00 64 7F FF 00` | `00 72 5D 7F FE 01 2C 02 58 7F FF 00` |
 | **-90.00°** | $-1.5708$ rad | `73 BA` | `00 73 BA 7F FE 00 32 00 64 7F FF 00` | `00 73 BA 7F FE 01 2C 02 58 7F FF 00` |
-| **-80.00°** | $-1.3963$ rad | `75 18` | `00 75 18 7F FE 00 32 00 64 7F FF 00` | `00 75 18 7F FE 01 2C 02 58 7F FF 00` |
+| **-80.00°** | $-1.3963$ rad | `75 17` | `00 75 17 7F FE 00 32 00 64 7F FF 00` | `00 75 17 7F FE 01 2C 02 58 7F FF 00` |
 | **-70.00°** | $-1.2217$ rad | `76 75` | `00 76 75 7F FE 00 32 00 64 7F FF 00` | `00 76 75 7F FE 01 2C 02 58 7F FF 00` |
 | **-60.00°** | $-1.0472$ rad | `77 D2` | `00 77 D2 7F FE 00 32 00 64 7F FF 00` | `00 77 D2 7F FE 01 2C 02 58 7F FF 00` |
 | **-50.00°** | $-0.8727$ rad | `79 2F` | `00 79 2F 7F FE 00 32 00 64 7F FF 00` | `00 79 2F 7F FE 01 2C 02 58 7F FF 00` |
@@ -491,7 +516,57 @@ Tất cả các bản tin đã được chuẩn hóa theo **Bản tin số 1** (
 | **-30.00°** | $-0.5236$ rad | `7B E9` | `00 7B E9 7F FE 00 32 00 64 7F FF 00` | `00 7B E9 7F FE 01 2C 02 58 7F FF 00` |
 | **-20.00°** | $-0.3491$ rad | `7D 46` | `00 7D 46 7F FE 00 32 00 64 7F FF 00` | `00 7D 46 7F FE 01 2C 02 58 7F FF 00` |
 | **-10.00°** | $-0.1745$ rad | `7E A3` | `00 7E A3 7F FE 00 32 00 64 7F FF 00` | `00 7E A3 7F FE 01 2C 02 58 7F FF 00` |
-| **0.00°** | $0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
-| **10.00°** | $0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
-| **20.00°** | $0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
-| **29.36° (Max)** | $0.5124$ rad | `84 01` | `00 84 01 7F FE 00 32 00 64 7F FF 00` | `00 84 01 7F FE 01 2C 02 58 7F FF 00` |
+| **+0.00°** | $+0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
+| **+10.00°** | $+0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+20.00°** | $+0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+30.00°** | $+0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
+| **+40.00°** | $+0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
+| **+50.00°** | $+0.8727$ rad | `86 D1` | `00 86 D1 7F FE 00 32 00 64 7F FF 00` | `00 86 D1 7F FE 01 2C 02 58 7F FF 00` |
+| **+60.00°** | $+1.0472$ rad | `88 2E` | `00 88 2E 7F FE 00 32 00 64 7F FF 00` | `00 88 2E 7F FE 01 2C 02 58 7F FF 00` |
+| **+70.00°** | $+1.2217$ rad | `89 8B` | `00 89 8B 7F FE 00 32 00 64 7F FF 00` | `00 89 8B 7F FE 01 2C 02 58 7F FF 00` |
+| **+80.00°** | $+1.3963$ rad | `8A E9` | `00 8A E9 7F FE 00 32 00 64 7F FF 00` | `00 8A E9 7F FE 01 2C 02 58 7F FF 00` |
+| **+90.00°** | $+1.5708$ rad | `8C 46` | `00 8C 46 7F FE 00 32 00 64 7F FF 00` | `00 8C 46 7F FE 01 2C 02 58 7F FF 00` |
+| **+100.00°** | $+1.7453$ rad | `8D A3` | `00 8D A3 7F FE 00 32 00 64 7F FF 00` | `00 8D A3 7F FE 01 2C 02 58 7F FF 00` |
+| **+109.00° (Max)** | $+1.9024$ rad | `8E DD` | `00 8E DD 7F FE 00 32 00 64 7F FF 00` | `00 8E DD 7F FE 01 2C 02 58 7F FF 00` |
+
+#### 8.4.2. Bảng Tra Cứu Khớp Hông Dọc Phải (BR Thigh - Motor 5)
+*Dải giới hạn thực nghiệm: `[-109.00°, +230.00°]`*
+
+| Góc Khớp Đích | Tọa độ Radian | Hex Vị Trí (`Byte 1-2`) | Bản tin Lực Siêu Mềm ($Kp=0.5, Kd=1.0$) | Bản tin Lực Tiêu Chuẩn ($Kp=3.0, Kd=6.0$) |
+| :---: | :---: | :---: | :--- | :--- |
+| **-109.00° (Min)** | $-1.9024$ rad | `71 23` | `00 71 23 7F FE 00 32 00 64 7F FF 00` | `00 71 23 7F FE 01 2C 02 58 7F FF 00` |
+| **-100.00°** | $-1.7453$ rad | `72 5D` | `00 72 5D 7F FE 00 32 00 64 7F FF 00` | `00 72 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **-90.00°** | $-1.5708$ rad | `73 BA` | `00 73 BA 7F FE 00 32 00 64 7F FF 00` | `00 73 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **-80.00°** | $-1.3963$ rad | `75 17` | `00 75 17 7F FE 00 32 00 64 7F FF 00` | `00 75 17 7F FE 01 2C 02 58 7F FF 00` |
+| **-70.00°** | $-1.2217$ rad | `76 75` | `00 76 75 7F FE 00 32 00 64 7F FF 00` | `00 76 75 7F FE 01 2C 02 58 7F FF 00` |
+| **-60.00°** | $-1.0472$ rad | `77 D2` | `00 77 D2 7F FE 00 32 00 64 7F FF 00` | `00 77 D2 7F FE 01 2C 02 58 7F FF 00` |
+| **-50.00°** | $-0.8727$ rad | `79 2F` | `00 79 2F 7F FE 00 32 00 64 7F FF 00` | `00 79 2F 7F FE 01 2C 02 58 7F FF 00` |
+| **-40.00°** | $-0.6981$ rad | `7A 8C` | `00 7A 8C 7F FE 00 32 00 64 7F FF 00` | `00 7A 8C 7F FE 01 2C 02 58 7F FF 00` |
+| **-30.00°** | $-0.5236$ rad | `7B E9` | `00 7B E9 7F FE 00 32 00 64 7F FF 00` | `00 7B E9 7F FE 01 2C 02 58 7F FF 00` |
+| **-20.00°** | $-0.3491$ rad | `7D 46` | `00 7D 46 7F FE 00 32 00 64 7F FF 00` | `00 7D 46 7F FE 01 2C 02 58 7F FF 00` |
+| **-10.00°** | $-0.1745$ rad | `7E A3` | `00 7E A3 7F FE 00 32 00 64 7F FF 00` | `00 7E A3 7F FE 01 2C 02 58 7F FF 00` |
+| **+0.00°** | $+0.0000$ rad | `80 00` | `00 80 00 7F FE 00 32 00 64 7F FF 00` | `00 80 00 7F FE 01 2C 02 58 7F FF 00` |
+| **+10.00°** | $+0.1745$ rad | `81 5D` | `00 81 5D 7F FE 00 32 00 64 7F FF 00` | `00 81 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+20.00°** | $+0.3491$ rad | `82 BA` | `00 82 BA 7F FE 00 32 00 64 7F FF 00` | `00 82 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+30.00°** | $+0.5236$ rad | `84 17` | `00 84 17 7F FE 00 32 00 64 7F FF 00` | `00 84 17 7F FE 01 2C 02 58 7F FF 00` |
+| **+40.00°** | $+0.6981$ rad | `85 74` | `00 85 74 7F FE 00 32 00 64 7F FF 00` | `00 85 74 7F FE 01 2C 02 58 7F FF 00` |
+| **+50.00°** | $+0.8727$ rad | `86 D1` | `00 86 D1 7F FE 00 32 00 64 7F FF 00` | `00 86 D1 7F FE 01 2C 02 58 7F FF 00` |
+| **+60.00°** | $+1.0472$ rad | `88 2E` | `00 88 2E 7F FE 00 32 00 64 7F FF 00` | `00 88 2E 7F FE 01 2C 02 58 7F FF 00` |
+| **+70.00°** | $+1.2217$ rad | `89 8B` | `00 89 8B 7F FE 00 32 00 64 7F FF 00` | `00 89 8B 7F FE 01 2C 02 58 7F FF 00` |
+| **+80.00°** | $+1.3963$ rad | `8A E9` | `00 8A E9 7F FE 00 32 00 64 7F FF 00` | `00 8A E9 7F FE 01 2C 02 58 7F FF 00` |
+| **+90.00°** | $+1.5708$ rad | `8C 46` | `00 8C 46 7F FE 00 32 00 64 7F FF 00` | `00 8C 46 7F FE 01 2C 02 58 7F FF 00` |
+| **+100.00°** | $+1.7453$ rad | `8D A3` | `00 8D A3 7F FE 00 32 00 64 7F FF 00` | `00 8D A3 7F FE 01 2C 02 58 7F FF 00` |
+| **+110.00°** | $+1.9199$ rad | `8F 00` | `00 8F 00 7F FE 00 32 00 64 7F FF 00` | `00 8F 00 7F FE 01 2C 02 58 7F FF 00` |
+| **+120.00°** | $+2.0944$ rad | `90 5D` | `00 90 5D 7F FE 00 32 00 64 7F FF 00` | `00 90 5D 7F FE 01 2C 02 58 7F FF 00` |
+| **+130.00°** | $+2.2689$ rad | `91 BA` | `00 91 BA 7F FE 00 32 00 64 7F FF 00` | `00 91 BA 7F FE 01 2C 02 58 7F FF 00` |
+| **+140.00°** | $+2.4435$ rad | `93 17` | `00 93 17 7F FE 00 32 00 64 7F FF 00` | `00 93 17 7F FE 01 2C 02 58 7F FF 00` |
+| **+150.00°** | $+2.6180$ rad | `94 74` | `00 94 74 7F FE 00 32 00 64 7F FF 00` | `00 94 74 7F FE 01 2C 02 58 7F FF 00` |
+| **+160.00°** | $+2.7925$ rad | `95 D1` | `00 95 D1 7F FE 00 32 00 64 7F FF 00` | `00 95 D1 7F FE 01 2C 02 58 7F FF 00` |
+| **+170.00°** | $+2.9671$ rad | `97 2E` | `00 97 2E 7F FE 00 32 00 64 7F FF 00` | `00 97 2E 7F FE 01 2C 02 58 7F FF 00` |
+| **+180.00°** | $+3.1416$ rad | `98 8B` | `00 98 8B 7F FE 00 32 00 64 7F FF 00` | `00 98 8B 7F FE 01 2C 02 58 7F FF 00` |
+| **+190.00°** | $+3.3161$ rad | `99 E8` | `00 99 E8 7F FE 00 32 00 64 7F FF 00` | `00 99 E8 7F FE 01 2C 02 58 7F FF 00` |
+| **+200.00°** | $+3.4907$ rad | `9B 45` | `00 9B 45 7F FE 00 32 00 64 7F FF 00` | `00 9B 45 7F FE 01 2C 02 58 7F FF 00` |
+| **+210.00°** | $+3.6652$ rad | `9C A2` | `00 9C A2 7F FE 00 32 00 64 7F FF 00` | `00 9C A2 7F FE 01 2C 02 58 7F FF 00` |
+| **+220.00°** | $+3.8397$ rad | `9D FF` | `00 9D FF 7F FE 00 32 00 64 7F FF 00` | `00 9D FF 7F FE 01 2C 02 58 7F FF 00` |
+| **+230.00° (Max)** | $+4.0143$ rad | `9F 5D` | `00 9F 5D 7F FE 00 32 00 64 7F FF 00` | `00 9F 5D 7F FE 01 2C 02 58 7F FF 00` |
+
